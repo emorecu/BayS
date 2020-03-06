@@ -1,0 +1,6 @@
+@using System
+@{
+    if (Model.ContainsKey("name") && Model.ContainsKey("when"))
+    { <p>Hi @Model["name"], Ultra Festival was canceled @Model["when"]  @@ @DateTime.Now.AddDays(-1)</p> }
+
+}

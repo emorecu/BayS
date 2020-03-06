@@ -1,0 +1,30 @@
+﻿@model TabsViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    a:link, a:hover, a:visited, a:active {
+        color: white;
+    }
+
+</style>
+<h2>BayShore Templates</h2>
+<ul class="nav nav-tabs">
+    <li role="presentation" style="" class="@(Model.ActiveTab == Tab.List  ? "btn btn-primary" : "btn btn-secondary" )"><a asp-route-tabname="List" asp-action="SwitchToTabs">List Templates</a></li>
+    <li role="presentation" style="margin-left:3px" class="@(Model.ActiveTab == Tab.Temps ? "btn btn-primary" : "btn btn-secondary" )"><a asp-route-tabname="Temps" asp-action="SwitchToTabs">Create Template</a></li>
+    <li role="presentation" style="margin-left:3px" class="@(Model.ActiveTab == Tab.Test  ? "btn btn-primary" : "btn btn-secondary" )"><a asp-route-tabname="Test" asp-action="SwitchToTabs">Test Templates</a></li>
+</ul>
+@switch (Model.ActiveTab)
+{
+    case Tab.List:
+        @await Component.InvokeAsync("List", Model.ListViewModel);
+        break;
+    case Tab.Temps:
+        @await Component.InvokeAsync("Temps", Model.CreateTempModel);
+        break;
+    case Tab.Test:
+        @await Component.InvokeAsync("Test", Model.TestModel);
+        break;
+    default:
+        break;
+}

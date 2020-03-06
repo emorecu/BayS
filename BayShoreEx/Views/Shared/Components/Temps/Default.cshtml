@@ -1,0 +1,26 @@
+﻿@model CreateTempViewModel
+
+
+<form asp-controller="Home" asp-action="CreateTemplate" method="post">
+    <div class="panel-body">
+        <div class="form-group panel" style="" id="divCreate">
+            <h1 class="">Create Template</h1>
+            <div class="col-md-3">
+                <label asp-for="TemplateName" ></label>
+            </div>
+            <div class="col-md-2" style="">
+
+                <input asp-for="TemplateName" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="TemplateText"></label>
+            </div>
+            <div class="col-md-3">
+                <textarea rows="10" cols="100" asp-for="TemplateText"></textarea>
+            </div>
+            <div class="col-md-4">
+                <button type="submit">Create</button>
+            </div>
+        </div>
+    </div>
+</form>

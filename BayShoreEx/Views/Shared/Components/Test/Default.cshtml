@@ -1,0 +1,113 @@
+﻿@model TestViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+<h1 class="">Test the templates!!!</h1>
+
+<select asp-for="Template" asp-items="Model.Templates"></select>
+
+<button type="button" onclick="getTemplateContent();">Load</button>
+<br/>
+<div id="divLoadTemp" style="display:none">
+    <div class="col-md-3" style="margin-left: -18px;">
+        <textarea rows="10" cols="100" asp-for="TemplateText"></textarea>
+    </div>
+    <br />
+    <div id="testResult"></div>
+    <br />
+    <div class="input_fields_wrap">
+
+        <div class="divMaps">
+            Key: <input type="text" name="map.key"> Value: <input type="text" name="map.value">
+        </div>
+
+    </div>
+    <br />
+    <button class="add_field_button">Add Map</button>
+    <button type="button" onclick="testTemplate();">Test Template</button>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	var max     = 10;
+	var wrapper = $(".input_fields_wrap");
+	var add     = $(".add_field_button");
+
+	var x = 1;
+	$(add).click(function(e){
+		e.preventDefault();
+		if(x < max){
+			x++;
+			$(wrapper).append('<div class="divMaps">Key: <input type="text" name="map.key"/> Value: <input type="text" name="map.value"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+		}
+	});
+
+	$(wrapper).on("click",".remove_field", function(e){
+		e.preventDefault();
+        $(this).parent('div').remove();
+        x--;
+	})
+});
+function getTemplateContent() {
+    var _selectedTemp = $('#@Html.IdFor(model => model.Template)').val();
+    var data = { Template : _selectedTemp};
+
+    $.ajax({
+        url: "/Home/GetTemplate",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            console.log(response);
+
+            if (response.success){
+                $("#divLoadTemp").show();
+                $('#@Html.IdFor(model => model.TemplateText)').val(response.result);
+                }
+            else
+                    alert('Failed to get template');
+
+            return response.success;
+
+        },
+        error: function (er) {
+            console.log(er);
+            alert('Error getting template');
+        }
+
+    });
+};
+
+function testTemplate() {
+    var _selectedContent = $('#@Html.IdFor(model => model.Template)').val();
+    dict = new Object();
+    $('.divMaps').each(function () {
+        dict[$(this).find('[name="map.key"]').val()] = $(this).find('[name="map.value"]').val();
+
+    });
+    var data = { template : _selectedContent, maps:dict};
+
+    $.ajax({
+        url: "/Home/TestTemplate",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            console.log(response);
+
+            if (response.success){
+                $("#testResult").show();
+                $('#testResult').html("<h3>Results</h3>" + response.result.result);
+                }
+            else
+                    alert('Failed to get template');
+
+            return response.success;
+
+        },
+        error: function (er) {
+            console.log(er);
+            alert('Error getting template');
+        }
+
+    });
+};
+
+</script>

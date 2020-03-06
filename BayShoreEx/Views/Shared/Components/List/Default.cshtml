@@ -1,0 +1,42 @@
+﻿@model ListViewModel
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-sm table-striped table-hover border-bottom">
+            <thead>
+                <tr>
+                    <th class="d-none d-lg-table-cell">
+                        @Html.DisplayNameFor(model => model.Temp)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Temp.Count > 0)
+                {
+                    foreach (var item in Model.Temp)
+                    {
+                        <tr>
+                            <td class="d-none d-lg-table-cell">
+                                @Html.DisplayFor(modelItem => modelItem.Temp)
+                            </td>
+                            <td class="custom-control custom-checkbox text-center d-none d-md-table-cell">
+                                <button asp-action="Edit" asp-controller="Home">Edit</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            No Templates found!!!
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    @*<a asp-page="Index">Back to List</a>*@
+</div>
