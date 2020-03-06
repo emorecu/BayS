@@ -97,14 +97,13 @@ function testTemplate() {
                 $('#testResult').html("<h3>Results</h3>" + response.result.result);
                 }
             else
-                    alert('Failed to get template');
+                $('#testResult').html("<h3 style='color:red'>Error</h3><br/>Failed to get template");
 
             return response.success;
 
         },
         error: function (er) {
-            console.log(er);
-            alert('Error getting template');
+            $('#testResult').html("<h3 style='color:red'>Error</h3><br/>" + er);
         }
 
     });
